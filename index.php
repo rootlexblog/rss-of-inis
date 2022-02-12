@@ -20,21 +20,23 @@ $feed
     ->addChannelTtl(60);
 $feed->addItem();
 
-$result = get($api . '/api/article');
+$result = get($api . '/api/article?limit=9999');
 $postc = $result['data']['count'];
+$postpage = $result['data']['page'];
 $i = 0;
 while($i<$postc)
 {
-    
-    $feed
-    ->addItemTitle($result['data']['data'][$i]['title'])
-    ->addItemDescription(mb_strimwidth($result['data']['data'][$i]['description'], 0, 60, "..."))
-    ->addItemLink('https://' . $site . '/#/article/' . $result['data']['data'][$i]['id'])
-    ->addItemAuthor($result['data']['data'][$i]['expand']['author']['nickname'])
-    ->addItemPubDate($result['data']['data'][$i]['create_time']);
+    if($result['data']['data'][$i]['title'] != null)
+    {
+        $feed
+        ->addItemTitle($result['data']['data'][$i]['title'])
+        ->addItemDescription(mb_strimwidth($result['data']['data'][$i]['description'], 0, 60, "..."))
+        ->addItemLink('https://' . $site . '/#/article/' . $result['data']['data'][$i]['id'])
+        ->addItemAuthor($result['data']['data'][$i]['expand']['author']['nickname'])
+        ->addItemPubDate($result['data']['data'][$i]['create_time']);
+       
+    } 
     $i++;
 }
-
-
 echo $feed;
 // $feed->save(realpath(__DIR__ . '/rss.xml'));
