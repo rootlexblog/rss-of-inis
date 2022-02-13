@@ -1,2 +1,2 @@
-# rss-of-inis
+# rss-for-inis
 基于RSS-Generator-master
